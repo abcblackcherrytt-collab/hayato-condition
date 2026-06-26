@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>訪問コンディショニングサービス｜ご自宅で整える身体づくり</title>
+  <!-- Tailwind CSS (Play CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        screens: { 'sm': '560px', 'md': '900px', 'lg': '1120px' },
+        extend: {
+          colors: {
+            mint: {
+              50: '#f5fbf7', 100: '#ebf6ef', 150: '#ddf0e6',
+              200: '#c8e7d4', 300: '#a1d6ba', 400: '#6cc298', 500: '#45ac7d'
+            },
+            primary: { DEFAULT: '#2f7d5b', deep: '#256249', ink: '#1f4034' },
+            ink: '#2f3b34',
+            muted: '#62715f',
+            line: '#e4efe7',
+          },
+          boxShadow: {
+            faint: '0 1px 2px rgba(31, 64, 52, 0.04)',
+            soft: '0 8px 24px rgba(31, 64, 52, 0.06)',
+            card: '0 18px 50px rgba(31, 64, 52, 0.09)',
+            lift: '0 30px 70px rgba(31, 64, 52, 0.14)',
+          },
+          fontFamily: {
+            sans: ['Hiragino Sans', 'Yu Gothic', 'YuGothic', 'Noto Sans JP', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer base {
+      html { scroll-behavior: smooth; }
+      body { @apply bg-white text-ink font-sans antialiased; line-height: 1.8; text-rendering: optimizeLegibility; }
+      img { @apply block max-w-full; }
+      a { @apply text-inherit no-underline transition-colors duration-200; }
+      :focus-visible { outline: 2px solid #2f7d5b; outline-offset: 3px; border-radius: 4px; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition: none !important; animation: none !important; }
+      }
+    }
+
+    @layer components {
+      .page { @apply overflow-hidden; }
+
+      /* === Nav === */
+      .nav {
+        @apply sticky top-0 z-10 border-b border-line;
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: saturate(140%) blur(16px);
+        -webkit-backdrop-filter: saturate(140%) blur(16px);
+      }
+      .nav-inner { @apply flex items-center justify-between mx-auto gap-5; width: min(1120px, calc(100% - 40px)); min-height: 76px; }
+      .brand { @apply flex items-center gap-3 font-semibold text-primary-ink; letter-spacing: 0.02em; }
+      .brand-mark { @apply grid place-items-center w-10 h-10 rounded-full bg-mint-100 border border-mint-200 text-primary font-bold; }
+      .nav-links { @apply flex items-center gap-[26px] text-muted text-sm; letter-spacing: 0.04em; }
+      .nav-links a { @apply relative py-1.5; }
+      .nav-links a::after { content: ""; @apply absolute left-0 bottom-0 bg-primary; width: 0; height: 1.5px; transition: width .25s ease; }
+      .nav-links a:hover { @apply text-primary-ink; }
+      .nav-links a:hover::after { width: 100%; }
+
+      /* === Hero === */
+      .hero {
+        @apply relative grid items-center mx-auto;
+        grid-template-columns: minmax(0, 1fr) minmax(340px, 0.95fr);
+        gap: 58px; width: min(1120px, calc(100% - 40px));
+        min-height: calc(100vh - 76px); padding: 60px 0 80px;
+      }
+      .hero::before {
+        content: ""; @apply absolute;
+        top: -8%; right: -10%; width: 520px; height: 520px;
+        background: radial-gradient(circle at center, #ddf0e6 0%, rgba(221, 240, 230, 0) 68%);
+        z-index: -1; filter: blur(4px);
+      }
+      .eyebrow { @apply inline-flex items-center gap-3 mb-[22px] text-primary text-[13px] font-semibold; letter-spacing: 0.14em; }
+      .eyebrow::before { content: ""; @apply inline-block w-9 bg-mint-400; height: 1.5px; }
+      h1, h2, h3, p { margin-top: 0; }
+      h1, h2, h3, p, a, li, span { overflow-wrap: anywhere; }
+      .nowrap { white-space: nowrap; }
+      h1 { @apply mb-6 text-primary-ink font-semibold; font-size: clamp(38px, 6vw, 70px); line-height: 1.12; letter-spacing: 0.005em; }
+      .hero-lead { @apply max-w-[640px] mb-[22px] text-[#36463d]; font-size: clamp(18px, 2vw, 22px); line-height: 1.78; }
+      .hero-copy { @apply max-w-[580px] mb-9 text-muted text-base; }
+      .hero-actions { @apply flex flex-wrap items-center gap-[14px] mb-7; }
+
+      .button {
+        @apply inline-flex items-center justify-center gap-2 min-h-[50px] px-[26px] py-[13px] rounded-full bg-primary border border-primary text-white font-semibold transition;
+        box-shadow: 0 10px 26px rgba(47, 125, 91, 0.22); letter-spacing: 0.02em;
+      }
+      .button:hover { @apply bg-primary-deep; box-shadow: 0 14px 32px rgba(47, 125, 91, 0.28); }
+      .button:active { @apply translate-y-px; }
+      .button-secondary { @apply bg-transparent text-primary; box-shadow: none; }
+      .button-secondary:hover { @apply bg-primary text-white; box-shadow: 0 12px 28px rgba(47, 125, 91, 0.22); }
+
+      .hero-media { @apply relative; min-height: 520px; }
+      .hero-media::before { content: ""; @apply absolute rounded-[22px] bg-mint-50; inset: 18px -18px -18px 18px; border: 1px solid #c8e7d4; z-index: 0; }
+      .hero-photo { @apply relative z-[1] w-full h-[520px] object-cover rounded-[22px] shadow-card; }
+
+      /* === Sections === */
+      section { @apply py-24; }
+      .section-soft { @apply bg-mint-50; }
+      .section-inner { @apply mx-auto; width: min(1120px, calc(100% - 40px)); }
+      .section-heading { @apply max-w-[740px] mb-11; }
+      .section-heading h2 { @apply mb-[14px] text-primary-ink font-semibold; font-size: clamp(28px, 4vw, 42px); line-height: 1.28; letter-spacing: 0.005em; }
+      .section-heading p { @apply text-muted text-base; }
+
+      /* === Issue (speech bubbles) === */
+      .issue-grid { @apply grid gap-5; grid-template-columns: repeat(2, 1fr); }
+      .issue-grid + .issue-cta { @apply mt-11; }
+      .issue-card {
+        @apply relative grid gap-3 pt-7 px-[30px] pb-[30px] rounded-[18px] border border-line bg-white shadow-soft transition;
+      }
+      .issue-card::before,
+      .issue-card::after { content: ""; @apply absolute; left: 44px; width: 0; height: 0; border-style: solid; pointer-events: none; }
+      .issue-card::before { bottom: -13px; border-width: 13px 10px 0 10px; border-color: #e4efe7 transparent transparent transparent; }
+      .issue-card::after { bottom: -12px; border-width: 12px 9px 0 9px; border-color: #ffffff transparent transparent transparent; }
+      .issue-card:hover { @apply -translate-y-[3px] shadow-card; }
+      .issue-mark { @apply inline-flex items-center justify-center w-[42px] h-[42px] rounded-full bg-mint-100 border border-mint-200 text-primary font-bold; }
+      .issue-card h3 { @apply m-0 text-primary-ink text-[19px] font-semibold leading-snug; }
+      .issue-card p { @apply m-0 text-muted text-[15px]; }
+      .issue-card:nth-child(even) { @apply mt-9; }
+
+      .issue-cta {
+        @apply mt-11 mb-7 p-10 rounded-[22px] text-white text-center shadow-card border border-white/10;
+        background: linear-gradient(135deg, #2f7d5b 0%, #1f4034 100%);
+      }
+      .issue-cta h3 { @apply m-0 mb-[10px] text-[22px] font-semibold leading-snug; }
+      .issue-cta p { @apply mx-auto mb-6 text-[15px]; max-width: 560px; color: rgba(255, 255, 255, 0.86); }
+      .issue-cta .button { @apply bg-white text-primary-ink border-white; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); }
+      .issue-cta .button:hover { @apply bg-mint-50 text-primary-ink; }
+
+      /* === Values === */
+      .values-grid { @apply grid gap-[18px]; grid-template-columns: repeat(3, 1fr); }
+      .value-card { @apply p-[30px] rounded-[14px] border border-line bg-white shadow-faint transition; }
+      .value-card:hover { @apply -translate-y-[3px] shadow-soft; }
+      .value-icon { @apply grid place-items-center w-12 h-12 mb-[18px] rounded-full bg-mint-100 border border-mint-200 text-primary font-semibold; }
+      .value-card h3 { @apply mb-[10px] text-primary-ink text-xl font-semibold leading-snug; }
+      .value-card p { @apply mb-0 text-muted text-[15px]; }
+
+      /* === Profile === */
+      .profile-grid { @apply grid items-stretch gap-7; grid-template-columns: 0.88fr 1.12fr; }
+      .profile-card, .note-card, .value-card, .price-card { @apply rounded-[14px]; }
+      .profile-card { @apply p-[34px] border border-line bg-white shadow-soft; }
+      .profile-head { @apply flex items-center gap-5 mb-6; }
+      .profile-head-text { @apply grid; }
+      .profile-title { @apply mb-2 text-primary-ink text-2xl font-semibold leading-snug; }
+      .profile-role { @apply text-primary font-semibold; letter-spacing: 0.02em; }
+
+      /* === Profile photo upload (click / drag & drop) === */
+      .profile-avatar {
+        @apply relative grid place-items-center w-[96px] h-[96px] rounded-full bg-mint-100 border border-mint-200 text-primary cursor-pointer overflow-hidden shrink-0 transition;
+        font-size: 34px; font-weight: 600;
+      }
+      .profile-avatar:hover { @apply border-mint-300; box-shadow: 0 8px 24px rgba(31, 64, 52, 0.10); }
+      .profile-avatar.is-drag { @apply border-mint-400; box-shadow: 0 0 0 4px #c8e7d4; }
+      .profile-avatar-input { @apply sr-only; }
+      .profile-avatar-placeholder { @apply grid place-items-center w-full h-full pointer-events-none; }
+      .profile-avatar-img { @apply absolute inset-0 w-full h-full object-cover; display: none; pointer-events: none; }
+      .profile-avatar.has-photo .profile-avatar-img { display: block; }
+      .profile-avatar.has-photo .profile-avatar-placeholder { display: none; }
+      .profile-avatar-badge {
+        @apply absolute grid place-items-center w-7 h-7 rounded-full bg-primary text-white text-base font-semibold;
+        right: -2px; bottom: -2px; box-shadow: 0 0 0 2px #ffffff; pointer-events: none;
+      }
+      .profile-photo-hint { @apply mb-6 text-xs text-muted; }
+      .career-list { @apply grid gap-4 m-0 p-0 list-none; }
+      .career-list li { @apply relative pl-[22px] text-[#36463d]; }
+      .career-list li::before { content: ""; @apply absolute; left: 0; top: 0.7em; width: 10px; height: 1.5px; background: #6cc298; }
+      .note-card { @apply grid place-content-center p-9 border border-mint-200 shadow-faint; background: linear-gradient(150deg, #ffffff 0%, #f5fbf7 100%); }
+      .note-card p { @apply mb-0 text-lg text-[#36463d]; line-height: 1.8; }
+      .trust-list { @apply grid gap-3 m-0 p-0 list-none; grid-template-columns: repeat(2, 1fr); }
+      .trust-list li { @apply relative pl-7 text-[#36463d] text-sm; }
+      .trust-list li::before { content: "✓"; @apply absolute left-0 top-0 text-primary font-bold; }
+
+      /* === Reasons === */
+      .reasons-grid { @apply grid gap-[18px]; grid-template-columns: repeat(3, 1fr); }
+      .reason-card { @apply p-[30px] rounded-[14px] border border-line bg-white shadow-faint transition; }
+      .reason-card:hover { @apply -translate-y-[3px] shadow-soft; }
+      .reason-num { @apply grid place-items-center w-11 h-11 mb-4 rounded-full bg-white border border-mint-300 text-primary font-semibold; }
+      .reason-card h3 { @apply mb-2 text-primary-ink text-lg font-semibold leading-snug; }
+      .reason-card p { @apply mb-0 text-muted text-[15px]; }
+
+      /* === Pricing === */
+      .pricing-grid { @apply grid gap-5 items-stretch; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .price-card { @apply flex flex-col p-7 border border-line bg-white shadow-soft; }
+      .price-card.featured { @apply border-mint-300 shadow-card; background: linear-gradient(180deg, #f5fbf7 0%, #ffffff 60%); }
+      .plan-name { @apply mb-[14px] text-primary-ink text-xl font-semibold leading-snug; }
+      .price { @apply flex flex-wrap items-baseline gap-1.5 mb-5 text-primary-ink font-semibold; }
+      .price strong { @apply text-[34px] font-semibold leading-none; }
+      .price span { @apply text-muted text-sm font-medium; }
+      .plan-list { @apply grid gap-3 m-0 p-0 list-none text-[15px] text-[#36463d]; }
+      .plan-list li { @apply relative pl-6; }
+      .plan-list li::before { content: ""; @apply absolute rounded-full bg-mint-400; top: 0.65em; left: 2px; width: 7px; height: 7px; box-shadow: 0 0 0 3px #ebf6ef; }
+      .price-note { @apply mt-[30px] p-6 px-7 rounded-[14px] border border-mint-200 bg-mint-50 text-sm text-[#36463d]; }
+      .price-note ul { @apply m-0 list-disc; padding-left: 18px; }
+      .price-note li { @apply mb-1; }
+      .price-option-highlight {
+        @apply mt-4 p-6 px-7 rounded-[14px] border border-mint-300 bg-white shadow-soft;
+      }
+      .price-option-highlight h3 { @apply m-0 mb-2 text-primary-ink text-lg font-semibold leading-snug; }
+      .price-option-highlight p { @apply m-0 text-[#36463d] text-[15px]; }
+
+      /* === Flow === */
+      .flow-list { @apply grid gap-[14px] m-0 p-0 list-none; counter-reset: step; }
+      .flow-step { @apply grid items-center p-6 px-7 rounded-[14px] border border-line bg-white shadow-faint transition; grid-template-columns: 44px 1fr; gap: 22px; }
+      .flow-step:hover { @apply shadow-soft; transform: translateX(2px); }
+      .flow-step::before { counter-increment: step; content: counter(step, decimal-leading-zero); @apply grid place-items-center w-11 h-11 rounded-full bg-mint-100 border border-mint-200 text-primary font-semibold text-sm; letter-spacing: 0.02em; }
+      .flow-step h3 { @apply m-0 mb-1 text-primary-ink text-[17px] font-semibold leading-snug; }
+      .flow-step p { @apply m-0 text-muted text-sm; }
+
+      /* === FAQ === */
+      .faq-list { @apply grid gap-[14px] m-0 p-0 list-none; }
+      .faq-item { @apply rounded-[14px] border border-line bg-white shadow-faint overflow-hidden transition; }
+      .faq-item:hover, .faq-item[open] { @apply shadow-soft; }
+      .faq-item summary { @apply flex items-center justify-between gap-4 px-7 py-[22px] cursor-pointer text-primary-ink font-semibold text-base list-none; }
+      .faq-item summary::-webkit-details-marker { @apply hidden; }
+      .faq-item summary::after { content: "+"; @apply shrink-0 grid place-items-center w-7 h-7 rounded-full bg-mint-100 border border-mint-200 text-primary text-lg font-semibold; transition: transform .2s ease; }
+      .faq-item[open] summary::after { content: "−"; }
+      .faq-answer { @apply px-7 pb-6 m-0 text-muted text-[15px]; }
+
+      /* === Closing === */
+      .closing {
+        @apply pt-[84px] pb-[100px] text-white text-center;
+        background: radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 45%), linear-gradient(150deg, #1f4034 0%, #2f7d5b 100%);
+      }
+      .closing .section-inner { @apply mx-auto; max-width: 760px; }
+      .closing h2 { @apply mb-[18px] font-semibold; font-size: clamp(28px, 4vw, 44px); line-height: 1.28; letter-spacing: 0.005em; }
+      .closing p { @apply mb-[30px]; color: rgba(255, 255, 255, 0.82); }
+      .closing .button { @apply bg-white text-primary-ink border-white; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18); }
+      .closing .button:hover { @apply bg-mint-50 text-primary-ink; }
+
+      /* === Responsive === */
+      @media (max-width: 1120px) {
+        .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 900px) {
+        .nav-links { @apply hidden; }
+        .hero, .profile-grid, .values-grid, .pricing-grid { grid-template-columns: 1fr; }
+        .issue-grid { grid-template-columns: 1fr; }
+        .issue-card:nth-child(even) { @apply mt-0; }
+        .reasons-grid { grid-template-columns: repeat(2, 1fr); }
+        .trust-list { grid-template-columns: 1fr; }
+        .hero { @apply gap-[26px] pt-12; min-height: auto; }
+        .hero-media { min-height: auto; }
+        .hero-photo { @apply h-auto; height: min(72vw, 480px); }
+        .hero::before { width: 380px; height: 380px; right: -20%; }
+      }
+      @media (max-width: 560px) {
+        .nav-inner, .hero, .section-inner { width: min(100% - 28px, 1120px); }
+        section { @apply py-[68px]; }
+        .hero { @apply pt-9 pb-14; }
+        .eyebrow { @apply mb-4; }
+        .eyebrow::before { @apply w-6; }
+        h1 { @apply mb-[18px]; }
+        .hero-lead { @apply mb-[18px]; }
+        .hero-copy { @apply mb-[26px]; }
+        .hero-actions { @apply items-stretch flex-col; }
+        .hero-actions .button-secondary { @apply -mt-1; }
+        .button { @apply w-full; }
+        .hero-media::before { inset: 12px -10px -10px 12px; }
+        .hero-photo { height: min(58vw, 320px); }
+        #issues { @apply pt-[60px]; }
+        .profile-card, .note-card, .value-card, .price-card, .issue-card { @apply p-6; }
+        .issue-grid + .issue-cta { @apply mt-8; }
+        .reasons-grid { grid-template-columns: 1fr; }
+        .reason-card, .flow-step, .faq-item summary, .issue-cta, .price-note { @apply p-[22px]; }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="#">
+          <span class="brand-mark">整</span>
+          <span>訪問コンディショニング</span>
+        </a>
+        <nav class="nav-links" aria-label="ページ内ナビゲーション">
+          <a href="#value">サービス</a>
+          <a href="#reasons">選ばれる理由</a>
+          <a href="#price">料金</a>
+          <a href="#faq">よくある質問</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- 1. ファーストビュー -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">ご自宅で受けられる、専門スタッフによるケア</p>
+          <h1 id="hero-title"><span class="nowrap">まだ動ける。</span><br><span class="nowrap">もっと楽しめる。</span></h1>
+          <p class="hero-lead">
+            年齢を理由に、ゴルフや旅行、日々の外出を小さくしない。今日の体を整え、明日の一歩を軽くするためのコンディショニング習慣。
+          </p>
+          <p class="hero-copy">
+            理学療法士とトレーナー資格を保有するスタッフが、専門知識をもとにコンディショニングとセルフケア指導を行います。
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#flow">まずは無料相談する</a>
+            <a class="button button-secondary" href="#value">サービス内容を見る</a>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <img class="hero-photo" src="hero-conditioning.png" alt="健康を保ち、自分らしく動き続けるためのコンディショニングをイメージする穏やかな風景">
+        </div>
+      </section>
+
+      <!-- 2. ユーザーの悩み・共感 -->
+      <section id="issues" aria-labelledby="issues-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="issues-title">こんな身体の悩みは<br>ありませんか？</h2>
+            <p>「これ、自分のことかも」「親の身体が少し心配」と思ったら、それが整える合図。日々の暮らしや趣味の中で、なんとなく気になっているサインをまとめました。</p>
+          </div>
+
+          <div class="issue-grid">
+            <article class="issue-card">
+              <span class="issue-mark">？</span>
+              <h3>肩こりや腰痛が続いている</h3>
+              <p>デスク仕事や家事で同じ姿勢が続き、気づけば凝りや張りが常態化している。</p>
+            </article>
+
+            <article class="issue-card">
+              <span class="issue-mark">？</span>
+              <h3>姿勢の悪さが気になっている</h3>
+              <p>写真や鏡で見た時の姿勢。猫背や巻き肩が、以前より目立つように感じる。</p>
+            </article>
+
+            <article class="issue-card">
+              <span class="issue-mark">？</span>
+              <h3>スポーツを長く楽しみたい</h3>
+              <p>ゴルフやテニス、登山などを続けたいけれど、体力や動きの変化が気になってきた。</p>
+            </article>
+
+            <article class="issue-card">
+              <span class="issue-mark">？</span>
+              <h3>施設やジム通いは気が進まない</h3>
+              <p>通うほどではないと感じつつ、パーソナルジムに通うのも面倒で、身体のケアが後回しになりがち。</p>
+            </article>
+
+            <article class="issue-card">
+              <span class="issue-mark">？</span>
+              <h3>年齢とともに動きにくさを感じる</h3>
+              <p>しゃがむ・階段を上がるなど、日常の動作が以前より少し億劫に。</p>
+            </article>
+
+            <article class="issue-card">
+              <span class="issue-mark">？</span>
+              <h3>家族の身体を見守りたい</h3>
+              <p>親の姿勢や歩き方が気になり始め、専門家に一度見てもらえる機会を探している。</p>
+            </article>
+          </div>
+
+          <div class="issue-cta">
+            <h3>まずは無料相談から</h3>
+            <p>身体の状態や生活習慣をお聞きし、専門知識をもとに必要なケアや進め方をご提案します。相談だけでも大丈夫です。</p>
+            <a class="button" href="#flow">無料で相談してみる</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. サービスでできること -->
+      <section id="value" class="section-soft" aria-labelledby="value-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="value-title">ご自宅で。<br>あなた専用のコンディショニングを</h2>
+            <p>姿勢や動きのチェックから、コンディショニング・運動指導・セルフケアまで。その日の状態と生活環境に合わせて個別設計し、ご自宅で続けられる身体管理を支えます。</p>
+          </div>
+
+          <div class="values-grid">
+            <article class="value-card">
+              <div class="value-icon">1</div>
+              <h3>姿勢チェック</h3>
+              <p>立ち姿勢・座り姿勢から、偏りや癖、負担のかかり方を読み取ります。</p>
+            </article>
+
+            <article class="value-card">
+              <div class="value-icon">2</div>
+              <h3>身体の動きの確認</h3>
+              <p>関節の可動域や筋肉の緊張を確認し、今の状態を一緒に把握します。</p>
+            </article>
+
+            <article class="value-card">
+              <div class="value-icon">3</div>
+              <h3>ストレッチ・可動域ケア</h3>
+              <p>硬くなった部位をほぐし、関節の動きを取り戻すサポートを行います。</p>
+            </article>
+
+            <article class="value-card">
+              <div class="value-icon">4</div>
+              <h3>体幹・筋力トレーニング</h3>
+              <p>無理のない範囲で、動くための土台となる筋力を育てます。</p>
+            </article>
+
+            <article class="value-card">
+              <div class="value-icon">5</div>
+              <h3>日常動作の改善アドバイス</h3>
+              <p>立つ・座る・歩くを見直し、負担の少ない動き方をご提案します。</p>
+            </article>
+
+            <article class="value-card">
+              <div class="value-icon">6</div>
+              <h3>セルフケア・運動習慣づくり</h3>
+              <p>ご自宅で続けられるケアと、習慣化の進め方をお伝えします。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. サービス提供者・信頼 -->
+      <section id="profile" aria-labelledby="profile-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="profile-title">あなたのための<br>最適なケアをご提案します</h2>
+            <p>身体に関わるサービスだからこそ、「誰が来るのか」「安心して任せられるか」は大切です。理学療法士とトレーナー資格を保有するスタッフが、コンディショニングとセルフケア指導を行います。</p>
+          </div>
+
+          <div class="profile-grid">
+            <article class="profile-card">
+              <div class="profile-head">
+                <label class="profile-avatar" id="profile-avatar" title="顔写真をアップロード">
+                  <input class="profile-avatar-input" type="file" id="profile-photo" accept="image/*" aria-label="担当スタッフの顔写真をアップロード">
+                  <img class="profile-avatar-img" id="profile-photo-img" alt="">
+                  <span class="profile-avatar-placeholder" aria-hidden="true">担</span>
+                  <span class="profile-avatar-badge" aria-hidden="true">＋</span>
+                </label>
+                <div class="profile-head-text">
+                  <h3 class="profile-title">担当スタッフ</h3>
+                  <p class="profile-role">コンディショニングスペシャリスト</p>
+                </div>
+              </div>
+              <p class="profile-photo-hint">顔写真を追加できます（円をクリック、または画像をドラッグ＆ドロップ）</p>
+              <ul class="career-list">
+                <li>理学療法士とトレーナー資格を保有。</li>
+                <li>医療現場・スポーツ疾患への対応経験があります。</li>
+                <li>姿勢・可動性・運動習慣など、予防と維持のための身体管理に対応。</li>
+                <li>アクティブに過ごしたい方からスポーツを続けたい方まで、一人ひとりの状態に合わせた対応を心がけています。</li>
+              </ul>
+            </article>
+
+            <aside class="note-card">
+              <p>
+                目指すのは、誰かに任せきりになることではありません。ご自身の身体の状態を知り、日々の暮らしや趣味の中で少しずつ整え、動き続けられる体を保つこと。そのためのコンディショニングとセルフケアを、ご一緒します。
+              </p>
+              <ul class="trust-list" style="margin-top: 22px;">
+                <li>理学療法士・トレーナー資格を保有</li>
+                <li>医療現場・スポーツ疾患の経験あり</li>
+                <li>スポーツを続けたい方にも対応</li>
+                <li>感染対策・安全配慮を実施</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. 選ばれる理由 -->
+      <section id="reasons" class="section-soft" aria-labelledby="reasons-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="reasons-title">ご自宅で・ご自身で<br>あなたが続けられるプランを提案。</h2>
+            <p>施設やジムに通わず、ご自宅で整えられる訪問コンディショニングならではの価値。</p>
+          </div>
+
+          <div class="reasons-grid">
+            <article class="reason-card">
+              <div class="reason-num">1</div>
+              <h3>距離に関係なく同一料金</h3>
+              <p>対応エリア内であれば、距離による追加料金なくご自宅で受けられます。</p>
+            </article>
+
+            <article class="reason-card">
+              <div class="reason-num">2</div>
+              <h3>一人ひとりに個別設計</h3>
+              <p>その日の身体の状態や目標に合わせて、内容を丁寧に設計します。</p>
+            </article>
+
+            <article class="reason-card">
+              <div class="reason-num">3</div>
+              <h3>セルフケアまで指導</h3>
+              <p>その場限りでなく、ご自身で続けられるケアを専門的にお伝えします。</p>
+            </article>
+
+            <article class="reason-card">
+              <div class="reason-num">4</div>
+              <h3>専門知識にもとづく身体管理</h3>
+              <p>姿勢・動き・生活習慣をあわせて確認し、予防と維持の視点で全体を見ます。</p>
+            </article>
+
+            <article class="reason-card">
+              <div class="reason-num">5</div>
+              <h3>家族からの相談にも対応</h3>
+              <p>親の身体が気になり始めたご家族からの相談にも対応します。</p>
+            </article>
+
+            <article class="reason-card">
+              <div class="reason-num">6</div>
+              <h3>趣味やスポーツを見据えた内容</h3>
+              <p>ゴルフや旅行、日々の外出を続けるための身体づくりをご提案します。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. サービス料金 -->
+      <section id="price" aria-labelledby="price-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="price-title">料金プラン</h2>
+            <p>運動や身体づくりは、継続することで効果を発揮します。無理なく続けやすい月額プランを中心に、生活リズムと身体の目標に合わせた頻度を選べる料金設定です。</p>
+          </div>
+
+          <div class="pricing-grid">
+            <article class="price-card">
+              <h3 class="plan-name">初回コンディションチェック</h3>
+              <div class="price"><strong>¥5,000</strong><span>/ 60〜70分・1回のみ</span></div>
+              <ul class="plan-list">
+                <li>サービス内容の確認</li>
+                <li>姿勢・動作のチェック</li>
+                <li>目標設定</li>
+                <li>サービスとの相性確認</li>
+              </ul>
+            </article>
+
+            <article class="price-card">
+              <h3 class="plan-name">ライトプラン</h3>
+              <div class="price"><strong>¥24,000</strong><span>/ 月2回</span></div>
+              <ul class="plan-list">
+                <li>まずは始めてみたい方へ</li>
+                <li>現状機能の維持</li>
+                <li>運動習慣の入り口づくり</li>
+                <li>無理のないペースで継続</li>
+              </ul>
+            </article>
+
+            <article class="price-card featured">
+              <h3 class="plan-name">スタンダードプラン</h3>
+              <div class="price"><strong>¥49,800</strong><span>/ 月4回</span></div>
+              <ul class="plan-list">
+                <li>効果を出せる頻度で運動したい方へ</li>
+                <li>身体づくりの習慣化</li>
+                <li>状態に合わせた継続サポート</li>
+                <li>セルフケアの定着</li>
+              </ul>
+            </article>
+
+            <article class="price-card">
+              <h3 class="plan-name">プレミアムプラン</h3>
+              <div class="price"><strong>¥118,000</strong><span>/ 月8回</span></div>
+              <ul class="plan-list">
+                <li>スポーツパフォーマンス改善</li>
+                <li>手厚いサポートを求める方へ</li>
+                <li>高い頻度での身体管理</li>
+                <li>目標に合わせた細かな調整</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="price-option-highlight">
+            <h3>ご夫婦利用・ご家族への情報共有にも対応</h3>
+            <p>そのほか、ご夫婦で利用できるプランや、離れて暮らすご家族へ身体の状態や取り組み内容を共有できるオプション等のご用意があります。</p>
+          </div>
+
+          <div class="price-note">
+            <ul>
+              <li>対応エリア内は距離に関係なく同一料金です。</li>
+              <li>初回コンディションチェックは、お一人につき1回のみご利用いただけます。</li>
+              <li>月額プランは身体の状態や目標に合わせて最適な頻度をご提案します。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. ご利用の流れ -->
+      <section id="flow" class="section-soft" aria-labelledby="flow-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="flow-title">ご利用の流れ</h2>
+            <p>お問い合わせから継続サポートまで。申し込み後の流れを把握して、安心してご利用ください。</p>
+          </div>
+
+          <ol class="flow-list">
+            <li class="flow-step">
+              <div>
+                <h3>無料相談・お問い合わせ</h3>
+                <p>フォームや電話で、お気軽にご連絡ください。</p>
+              </div>
+            </li>
+            <li class="flow-step">
+              <div>
+                <h3>悩みや希望日時の確認</h3>
+                <p>身体の悩みやご希望を丁寧にお伺いします。</p>
+              </div>
+            </li>
+            <li class="flow-step">
+              <div>
+                <h3>訪問日時の決定</h3>
+                <p>ご都合に合わせて、訪問日時を調整します。</p>
+              </div>
+            </li>
+            <li class="flow-step">
+              <div>
+                <h3>ご自宅へ訪問</h3>
+                <p>専門スタッフがお伺いします。</p>
+              </div>
+            </li>
+            <li class="flow-step">
+              <div>
+                <h3>ヒアリング・状態確認</h3>
+                <p>現状を丁寧にお聞きし、身体の状態を確認します。</p>
+              </div>
+            </li>
+            <li class="flow-step">
+              <div>
+                <h3>コンディショニング実施</h3>
+                <p>状態に合わせたケアを、ご自宅で行います。</p>
+              </div>
+            </li>
+            <li class="flow-step">
+              <div>
+                <h3>セルフケア・今後の方針</h3>
+                <p>ご自身でできるケアと、今後の進め方をご提案します。</p>
+              </div>
+            </li>
+            <li class="flow-step">
+              <div>
+                <h3>継続サポート（任意）</h3>
+                <p>ご希望に応じて、定期訪問などをご案内します。</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 8. よくある質問 -->
+      <section id="faq" aria-labelledby="faq-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="faq-title">よくある質問</h2>
+            <p>訪問サービスならではの不安にお答えします。</p>
+          </div>
+
+          <ul class="faq-list">
+            <li class="faq-item">
+              <details>
+                <summary>どんな服装で受ければよいですか？</summary>
+                <p class="faq-answer">動きやすい服装であれば問題ありません。ジャージやスウェットなどがおすすめです。</p>
+              </details>
+            </li>
+            <li class="faq-item">
+              <details>
+                <summary>自宅に広いスペースがなくても大丈夫ですか？</summary>
+                <p class="faq-answer">畳1〜2畳ほどのスペースがあれば対応可能です。必要に応じて内容を調整します。</p>
+              </details>
+            </li>
+            <li class="faq-item">
+              <details>
+                <summary>高齢の家族でも利用できますか？</summary>
+                <p class="faq-answer">はい、ご本人だけでなく、ご家族からのご相談も可能です。姿勢や歩き方、日々の動きで気になることをお聞かせください。</p>
+              </details>
+            </li>
+            <li class="faq-item">
+              <details>
+                <summary>痛みがある場合も受けられますか？</summary>
+                <p class="faq-answer">軽い違和感や時々気になる痛みであれば、状態を確認したうえで無理のない内容をご提案します。強い痛みや急な症状がある場合は対象外となることがあります。</p>
+              </details>
+            </li>
+            <li class="faq-item">
+              <details>
+                <summary>訪問エリアはどこですか？</summary>
+                <p class="faq-answer">〇〇市・〇〇区を中心に対応しています。対応エリア内は距離に関係なく同一料金です。</p>
+              </details>
+            </li>
+            <li class="faq-item">
+              <details>
+                <summary>継続契約は必要ですか？</summary>
+                <p class="faq-answer">必須ではありません。単発利用から始めていただけます。</p>
+              </details>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 9. 最終CTA -->
+      <section class="closing" aria-labelledby="closing-title">
+        <div class="section-inner">
+          <h2 id="closing-title">身体の悩み<br>まずは一度相談してみませんか？</h2>
+          <p>姿勢・可動性・運動習慣など、身体の悩みは人によって原因も生活背景も異なります。まずは現在の状態をお聞きし、理学療法士とトレーナー資格を保有するスタッフが、どのようなコンディショニングやセルフケアが合っているかをご提案します。相談だけでも可能です。</p>
+          <a class="button" href="#flow">無料相談する</a>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    (function () {
+      var avatar = document.getElementById('profile-avatar');
+      var input = document.getElementById('profile-photo');
+      var img = document.getElementById('profile-photo-img');
+      if (!avatar || !input || !img) return;
+      var url = null;
+
+      function show(file) {
+        if (!file || String(file.type).indexOf('image/') !== 0) return;
+        if (url) URL.revokeObjectURL(url);
+        url = URL.createObjectURL(file);
+        img.src = url;
+        img.alt = '担当スタッフの顔写真';
+        avatar.classList.add('has-photo');
+      }
+
+      input.addEventListener('change', function () {
+        if (input.files && input.files[0]) show(input.files[0]);
+      });
+
+      ['dragenter', 'dragover'].forEach(function (e) {
+        avatar.addEventListener(e, function (ev) { ev.preventDefault(); avatar.classList.add('is-drag'); });
+      });
+      ['dragleave', 'dragend', 'drop'].forEach(function (e) {
+        avatar.addEventListener(e, function (ev) { ev.preventDefault(); avatar.classList.remove('is-drag'); });
+      });
+      avatar.addEventListener('drop', function (ev) {
+        ev.preventDefault();
+        var f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
+        if (!f) return;
+        try { input.files = ev.dataTransfer.files; } catch (err) { /* not supported, preview only */ }
+        show(f);
+      });
+    })();
+  </script>
+</body>
+</html>
