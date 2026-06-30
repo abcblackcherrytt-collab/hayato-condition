@@ -235,6 +235,14 @@
       .closing .button { @apply bg-white text-primary-ink border-white; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18); }
       .closing .button:hover { @apply bg-mint-50 text-primary-ink; }
 
+      /* === Footer / disclaimer === */
+      .site-footer { @apply bg-white; border-top: 1px solid #eef2ef; }
+      .site-footer-inner { @apply mx-auto px-6 py-9; width: min(1120px, calc(100% - 40px)); }
+      .site-footer p {
+        @apply m-0 text-center text-[12px];
+        color: #a3ada6; line-height: 1.9; letter-spacing: 0.01em;
+      }
+
       /* === Responsive === */
       @media (max-width: 1120px) {
         .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -521,7 +529,7 @@
           <div class="pricing-grid">
             <article class="price-card">
               <h3 class="plan-name">初回コンディションチェック</h3>
-              <div class="price"><strong>¥5,000</strong><span>/ 60〜70分・1回のみ</span></div>
+              <div class="price"><strong>¥5,500</strong><span>/ 60〜70分・1回のみ</span></div>
               <ul class="plan-list">
                 <li>サービス内容の確認</li>
                 <li>姿勢・動作のチェック</li>
@@ -698,6 +706,14 @@
         </div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p>
+          ※ 本サービスは医療行為ではありません。医師の診断・治療に代わるものではなく、特定の疾病の治療・予防・改善を目的とするものではありません。強い痛みや疾患の疑いがある場合は、医療機関を受診してください。
+        </p>
+      </div>
+    </footer>
   </div>
   <script>
     (function () {
