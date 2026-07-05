@@ -184,6 +184,8 @@
       .reason-card:hover { @apply -translate-y-[3px] shadow-soft; }
       .reason-num { @apply grid place-items-center w-11 h-11 mb-4 rounded-full bg-white border border-mint-300 text-primary font-semibold; }
       .reason-card h3 { @apply mb-2 text-primary-ink text-lg font-semibold leading-snug; }
+      .reason-card h3 a { @apply text-primary-ink no-underline transition-colors; }
+      .reason-card h3 a:hover { @apply text-primary underline; }
       .reason-card p { @apply mb-0 text-muted text-[15px]; }
 
       /* === Pricing === */
@@ -213,10 +215,15 @@
       .flow-step::before { counter-increment: step; content: counter(step, decimal-leading-zero); @apply grid place-items-center w-11 h-11 rounded-full bg-mint-100 border border-mint-200 text-primary font-semibold text-sm; letter-spacing: 0.02em; }
       .flow-step h3 { @apply m-0 mb-1 text-primary-ink text-[17px] font-semibold leading-snug; }
       .flow-step p { @apply m-0 text-muted text-sm; }
+      .flow-contact { @apply grid gap-1 mt-4; }
+      .flow-phone { @apply inline-flex items-center gap-2 self-start font-semibold text-primary text-[20px] tracking-wide transition; }
+      .flow-phone:hover { @apply text-primary-deep; }
+      .flow-hours { @apply text-muted text-[13px]; }
 
       /* === FAQ === */
       .faq-list { @apply grid gap-[14px] m-0 p-0 list-none; }
       .faq-item { @apply rounded-[14px] border border-line bg-white shadow-faint overflow-hidden transition; }
+      .faq-item details[id] { scroll-margin-top: 90px; }
       .faq-item:hover, .faq-item[open] { @apply shadow-soft; }
       .faq-item summary { @apply flex items-center justify-between gap-4 px-7 py-[22px] cursor-pointer text-primary-ink font-semibold text-base list-none; }
       .faq-item summary::-webkit-details-marker { @apply hidden; }
@@ -481,7 +488,7 @@
           <div class="reasons-grid">
             <article class="reason-card">
               <div class="reason-num">1</div>
-              <h3>距離に関係なく同一料金</h3>
+              <h3><a href="#faq-area" class="reason-link">距離に関係なく同一料金</a></h3>
               <p>対応エリア内であれば、距離による追加料金なくご自宅で受けられます。</p>
             </article>
 
@@ -599,7 +606,11 @@
             <li class="flow-step">
               <div>
                 <h3>無料相談・お問い合わせ</h3>
-                <p>フォームや電話で、お気軽にご連絡ください。</p>
+                <p>お電話にて、お気軽にご連絡ください。</p>
+                <div class="flow-contact">
+                  <a class="flow-phone" href="tel:00000000000">000-0000-0000</a>
+                  <span class="flow-hours">受付時間：平日 9:00〜18:00（土日祝を除く）</span>
+                </div>
               </div>
             </li>
             <li class="flow-step">
@@ -682,7 +693,7 @@
               </details>
             </li>
             <li class="faq-item">
-              <details>
+              <details id="faq-area">
                 <summary>訪問エリアはどこですか？</summary>
                 <p class="faq-answer">〇〇市・〇〇区を中心に対応しています。対応エリア内は距離に関係なく同一料金です。</p>
               </details>
@@ -748,6 +759,23 @@
         if (!f) return;
         try { input.files = ev.dataTransfer.files; } catch (err) { /* not supported, preview only */ }
         show(f);
+      });
+    })();
+
+    // アンカーリンク先が <details> の場合、移動前に展開する
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          var id = link.getAttribute('href').slice(1);
+          if (!id) return;
+          var target = document.getElementById(id);
+          if (!target || target.tagName !== 'DETAILS') return;
+          e.preventDefault();
+          target.open = true;
+          target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+          if (history.replaceState) history.replaceState(null, '', '#' + id);
+        });
       });
     })();
   </script>
