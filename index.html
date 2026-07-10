@@ -81,6 +81,7 @@
       }
       .hero-banner {
         @apply relative grid items-start mb-[26px] overflow-hidden rounded-[18px];
+        width: min(100%, 545px);
         aspect-ratio: 16 / 9;
         background-color: #1f4034;
         background-image: url('picture/LP用.JPG'), linear-gradient(135deg, #2f7d5b 0%, #1f4034 100%);
@@ -91,11 +92,14 @@
       }
       .hero-banner::after { content: ""; @apply absolute inset-0; background: linear-gradient(120deg, rgba(31, 64, 52, 0.40) 0%, rgba(31, 64, 52, 0.06) 60%); }
       .hero-banner-text {
-        @apply relative z-[1] mt-[18px] ml-[18px] inline-flex flex-col gap-1.5 justify-self-start rounded-[12px] bg-white/95 px-5 py-3;
-        box-shadow: 0 14px 34px rgba(31, 64, 52, 0.20);
+        @apply relative z-[1] mt-[18px] ml-[18px] inline-flex flex-col justify-self-start rounded-[10px] bg-white/95 px-4 py-2.5;
+        box-shadow: 0 12px 28px rgba(31, 64, 52, 0.18);
       }
-      .hero-banner-eyebrow { @apply font-semibold text-primary; font-size: clamp(11px, 1vw, 13px); letter-spacing: 0.14em; }
-      .hero-banner-title { @apply m-0 font-semibold text-primary-ink; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.2; letter-spacing: 0.01em; }
+      .hero-banner-eyebrow {
+        @apply inline-flex items-center mb-3 font-semibold text-primary;
+        font-size: clamp(11px, 1vw, 13px); letter-spacing: 0.14em;
+      }
+      .hero-banner-title { @apply m-0 font-semibold text-primary-ink; font-size: clamp(18px, 2.25vw, 26px); line-height: 1.18; letter-spacing: 0.01em; }
       h1, h2, h3, p { margin-top: 0; }
       h1, h2, h3, p, a, li, span { overflow-wrap: anywhere; }
       .nowrap { white-space: nowrap; }
@@ -111,9 +115,8 @@
       .button-secondary { @apply bg-transparent text-primary; box-shadow: none; }
       .button-secondary:hover { @apply bg-primary text-white; box-shadow: 0 12px 28px rgba(47, 125, 91, 0.22); }
 
-      .hero-media { @apply relative; min-height: 520px; }
-      .hero-media::before { content: ""; @apply absolute rounded-[22px] bg-mint-50; inset: 18px -18px -18px 18px; border: 1px solid #c8e7d4; z-index: 0; }
-      .hero-photo { @apply relative z-[1] w-full h-[520px] object-contain rounded-[22px] shadow-card; }
+      .hero-media { @apply relative self-center; }
+      .hero-photo { @apply relative z-[1] w-full h-auto object-contain rounded-[22px] shadow-card; }
 
       /* === Sections === */
       section { @apply py-24; }
@@ -165,23 +168,14 @@
       .profile-title { @apply mb-2 text-primary-ink text-2xl font-semibold leading-snug; }
       .profile-role { @apply text-primary font-semibold; letter-spacing: 0.02em; }
 
-      /* === Profile photo upload (click / drag & drop) === */
+      /* === Profile photo === */
       .profile-avatar {
-        @apply relative grid place-items-center w-[96px] h-[96px] rounded-full bg-mint-100 border border-mint-200 text-primary cursor-pointer overflow-hidden shrink-0 transition;
+        @apply relative grid place-items-center w-[96px] h-[96px] rounded-full bg-mint-100 border border-mint-200 text-primary overflow-hidden shrink-0 transition;
         font-size: 34px; font-weight: 600;
       }
       .profile-avatar:hover { @apply border-mint-300; box-shadow: 0 8px 24px rgba(31, 64, 52, 0.10); }
-      .profile-avatar.is-drag { @apply border-mint-400; box-shadow: 0 0 0 4px #c8e7d4; }
-      .profile-avatar-input { @apply sr-only; }
-      .profile-avatar-placeholder { @apply grid place-items-center w-full h-full pointer-events-none; }
       .profile-avatar-img { @apply absolute inset-0 w-full h-full object-cover; display: none; pointer-events: none; }
-      .profile-avatar.has-photo .profile-avatar-img { display: block; }
-      .profile-avatar.has-photo .profile-avatar-placeholder { display: none; }
-      .profile-avatar-badge {
-        @apply absolute grid place-items-center w-7 h-7 rounded-full bg-primary text-white text-base font-semibold;
-        right: -2px; bottom: -2px; box-shadow: 0 0 0 2px #ffffff; pointer-events: none;
-      }
-      .profile-photo-hint { @apply mb-6 text-xs text-muted; }
+      .profile-avatar-static .profile-avatar-img { display: block; }
       .career-list { @apply grid gap-4 m-0 p-0 list-none; }
       .career-list li { @apply relative pl-[22px] text-[#36463d]; }
       .career-list li::before { content: ""; @apply absolute; left: 0; top: 0.7em; width: 10px; height: 1.5px; background: #6cc298; }
@@ -307,22 +301,26 @@
         .trust-list { grid-template-columns: 1fr; }
         .hero { @apply gap-[26px] pt-12; min-height: auto; }
         .hero-media { min-height: auto; }
-        .hero-photo { @apply h-auto; height: min(72vw, 480px); }
+        .hero-photo { @apply h-auto; }
         .hero::before { width: 380px; height: 380px; right: -20%; }
       }
       @media (max-width: 560px) {
         .nav-inner, .hero, .section-inner { width: min(100% - 28px, 1120px); }
         section { @apply py-[68px]; }
         .hero { @apply pt-9 pb-14; }
-        .hero-banner { @apply mb-[20px]; }
-        .hero-banner-text { @apply px-4 py-2.5; }
-        .hero-banner-title { font-size: clamp(17px, 4.6vw, 22px); }
+        .hero-banner {
+          @apply mb-[20px] rounded-none;
+          width: 100vw;
+          height: calc((100vw - 28px) * 9 / 16);
+          margin-left: calc(50% - 50vw);
+          aspect-ratio: auto;
+        }
+        .hero-banner-text { @apply mt-[18px] ml-[18px] px-3.5 py-2; }
+        .hero-banner-title { font-size: clamp(16px, 4.2vw, 20px); }
         h1 { @apply mb-[18px]; }
         .hero-actions { @apply items-stretch flex-col; }
         .hero-actions .button-secondary { @apply -mt-1; }
         .button { @apply w-full; }
-        .hero-media::before { inset: 12px -10px -10px 12px; }
-        .hero-photo { height: min(58vw, 320px); }
         #issues { @apply pt-[60px]; }
         .profile-card, .note-card, .value-card, .price-card, .issue-card { @apply p-6; }
         .issue-grid + .issue-cta { @apply mt-8; }
@@ -353,9 +351,9 @@
       <!-- 1. ファーストビュー -->
       <section class="hero" aria-labelledby="hero-banner-text">
         <div>
+          <span class="hero-banner-eyebrow">ご自宅で受けられる、専門スタッフによるケア</span>
           <div class="hero-banner">
             <div class="hero-banner-text">
-              <span class="hero-banner-eyebrow">ご自宅で受けられる、専門スタッフによるケア</span>
               <h1 class="hero-banner-title" id="hero-banner-text"><span class="nowrap">まだ動ける。</span><br><span class="nowrap">もっと楽しめる。</span></h1>
             </div>
           </div>
@@ -483,18 +481,14 @@
           <div class="profile-grid">
             <article class="profile-card">
               <div class="profile-head">
-                <label class="profile-avatar" id="profile-avatar" title="顔写真をアップロード">
-                  <input class="profile-avatar-input" type="file" id="profile-photo" accept="image/*" aria-label="担当スタッフの顔写真をアップロード">
-                  <img class="profile-avatar-img" id="profile-photo-img" alt="">
-                  <span class="profile-avatar-placeholder" aria-hidden="true">担</span>
-                  <span class="profile-avatar-badge" aria-hidden="true">＋</span>
-                </label>
+                <div class="profile-avatar profile-avatar-static">
+                  <img class="profile-avatar-img" src="picture/顔写真.JPG" alt="担当スタッフの顔写真">
+                </div>
                 <div class="profile-head-text">
                   <h3 class="profile-title">担当スタッフ</h3>
                   <p class="profile-role">コンディショニングスペシャリスト</p>
                 </div>
               </div>
-              <p class="profile-photo-hint">顔写真を追加できます（円をクリック、または画像をドラッグ＆ドロップ）</p>
               <ul class="career-list">
                 <li>理学療法士とトレーナー資格を保有。</li>
                 <li>医療現場・スポーツ疾患への対応経験があります。</li>
@@ -818,41 +812,6 @@
   </dialog>
 
   <script>
-    (function () {
-      var avatar = document.getElementById('profile-avatar');
-      var input = document.getElementById('profile-photo');
-      var img = document.getElementById('profile-photo-img');
-      if (!avatar || !input || !img) return;
-      var url = null;
-
-      function show(file) {
-        if (!file || String(file.type).indexOf('image/') !== 0) return;
-        if (url) URL.revokeObjectURL(url);
-        url = URL.createObjectURL(file);
-        img.src = url;
-        img.alt = '担当スタッフの顔写真';
-        avatar.classList.add('has-photo');
-      }
-
-      input.addEventListener('change', function () {
-        if (input.files && input.files[0]) show(input.files[0]);
-      });
-
-      ['dragenter', 'dragover'].forEach(function (e) {
-        avatar.addEventListener(e, function (ev) { ev.preventDefault(); avatar.classList.add('is-drag'); });
-      });
-      ['dragleave', 'dragend', 'drop'].forEach(function (e) {
-        avatar.addEventListener(e, function (ev) { ev.preventDefault(); avatar.classList.remove('is-drag'); });
-      });
-      avatar.addEventListener('drop', function (ev) {
-        ev.preventDefault();
-        var f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
-        if (!f) return;
-        try { input.files = ev.dataTransfer.files; } catch (err) { /* not supported, preview only */ }
-        show(f);
-      });
-    })();
-
     // アンカーリンク先が <details> の場合、移動前に展開する
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
