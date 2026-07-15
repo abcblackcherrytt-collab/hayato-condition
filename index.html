@@ -81,7 +81,7 @@
       }
       .hero-copy { @apply mb-6; min-width: 0; }
 
-      /* 外側ステージ：常に100vw、淡いミント背景＋矩形ラベル */
+      /* 外側ステージ：常に100vw、淡いミントの単色背景 */
       .hero-banner {
         position: relative;
         width: 100vw;
@@ -90,16 +90,6 @@
         overflow: hidden;
         background-color: #ebf6ef;
         min-width: 0;
-      }
-      .hero-banner::before {
-        content: ""; position: absolute; pointer-events: none; z-index: 0;
-        top: 0; left: 6%; width: 28%; height: 46%;
-        background: #f5fbf7;
-      }
-      .hero-banner::after {
-        content: ""; position: absolute; pointer-events: none; z-index: 0;
-        bottom: 0; right: 4%; width: 34%; height: 58%;
-        background: #c8e7d4;
       }
 
       /* 内側写真フレーム：幅を制限して写真を引き伸ばさない */
@@ -148,7 +138,7 @@
       .button-secondary { @apply bg-transparent text-primary; box-shadow: none; }
       .button-secondary:hover { @apply bg-primary text-white; box-shadow: 0 12px 28px rgba(47, 125, 91, 0.22); }
 
-      .hero-media { @apply relative flex justify-center; min-width: 0; }
+      .hero-media { @apply relative flex justify-center overflow-hidden; min-width: 0; }
       .hero-photo { @apply relative block h-auto rounded-[22px] shadow-card; width: 100%; max-width: 100%; }
 
       /* === Sections === */
@@ -353,9 +343,8 @@
         .nav-inner, .hero, .section-inner { width: min(100% - 28px, 1120px); }
         section { @apply py-[68px]; }
         .hero { @apply pt-9 pb-14; }
-        /* スマホ：写真を厳密に100vw・4:3・角丸なし。背景ラベルは非表示 */
+        /* スマホ：写真を厳密に100vw・4:3・角丸なし */
         .hero-banner { padding: 0; }
-        .hero-banner::before, .hero-banner::after { display: none; }
         .hero-banner-frame {
           width: 100vw; max-width: 100vw;
           aspect-ratio: 4 / 3;
