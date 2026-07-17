@@ -102,36 +102,16 @@
         border-radius: 0;
         box-shadow: 0 18px 50px rgba(31, 64, 52, 0.12);
         min-width: 0;
+        cursor: pointer;
       }
       .hero-banner-image {
         position: absolute; inset: 0;
         width: 100%; height: 100%;
         object-fit: cover; object-position: center;
         opacity: 0;
+        transition: opacity .8s ease;
       }
-      .hero-banner-image--a { animation: heroSlideA 18s ease-in-out infinite; }
-      .hero-banner-image--b { animation: heroSlideB 18s ease-in-out infinite; }
-      .hero-banner-image--c { animation: heroSlideC 18s ease-in-out infinite; }
-      /* 3枚を A→B→C→A とシームレスにクロスフェード（周期18秒・1枚約6秒） */
-      @keyframes heroSlideA {
-        0%, 25% { opacity: 1; }
-        33.33% { opacity: 0; }
-        91.67% { opacity: 0; }
-        100% { opacity: 1; }
-      }
-      @keyframes heroSlideB {
-        0%, 25% { opacity: 0; }
-        33.33%, 58.33% { opacity: 1; }
-        66.67%, 100% { opacity: 0; }
-      }
-      @keyframes heroSlideC {
-        0%, 58.33% { opacity: 0; }
-        66.67%, 91.67% { opacity: 1; }
-        100% { opacity: 0; }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .hero-banner-image--a { opacity: 1; }
-      }
+      .hero-banner-image.is-active { opacity: 1; }
       .hero-banner-text {
         position: absolute; z-index: 2; top: 18px; left: 18px;
         display: inline-flex; flex-direction: column;
@@ -416,9 +396,9 @@
         </div>
 
         <div class="hero-banner">
-          <div class="hero-banner-frame">
+          <div class="hero-banner-frame" id="hero-slides" role="button" tabindex="0" aria-label="写真をタップ・クリックで切り替え">
             <img
-              class="hero-banner-image hero-banner-image--a"
+              class="hero-banner-image hero-banner-image--a is-active"
               src="picture/LP用_編集版_v2_4x3.png"
               alt="施術台でコンディショニングを行う様子"
               width="1477"
@@ -803,14 +783,8 @@
           <ul class="faq-list">
             <li class="faq-item">
               <details>
-                <summary>どんな服装で受ければよいですか？</summary>
-                <p class="faq-answer">動きやすい服装であれば問題ありません。ジャージやスウェットなどがおすすめです。</p>
-              </details>
-            </li>
-            <li class="faq-item">
-              <details>
                 <summary>自宅に広いスペースがなくても大丈夫ですか？</summary>
-                <p class="faq-answer">畳1〜2畳ほどのスペースがあれば対応可能です。必要に応じて内容を調整します。</p>
+                <p class="faq-answer">ご家庭の場合はベッドを使用させていただきます。簡単なストレッチや運動ができるスペースがあれば問題ありません。</p>
               </details>
             </li>
             <li class="faq-item">
@@ -828,13 +802,13 @@
             <li class="faq-item">
               <details id="faq-area">
                 <summary>訪問エリアはどこですか？</summary>
-                <p class="faq-answer">〇〇市・〇〇区を中心に対応しています。対応エリア内は距離に関係なく同一料金です。</p>
+                <p class="faq-answer">[東京都]豊島区・中野区・練馬区・板橋区を中心に対応しています。対応エリア内は距離に関係なく同一料金です。</p>
               </details>
             </li>
             <li class="faq-item">
               <details>
-                <summary>継続契約は必要ですか？</summary>
-                <p class="faq-answer">必須ではありません。単発利用から始めていただけます。</p>
+                <summary>企業（法人）向けの場合、どのような場所で実施しますか？</summary>
+                <p class="faq-answer">休憩スペース等を利用させていただくことがあります。また治療用ベッドを持ち込みさせていただきます。</p>
               </details>
             </li>
           </ul>
@@ -946,6 +920,51 @@
           var dialog = btn.closest('dialog');
           if (dialog) dialog.close();
         });
+      });
+    })();
+
+    // ファーストビュー写真：タップ/クリック・キーで切り替え（自動ローテーション付き）
+    (function () {
+      var frame = document.getElementById('hero-slides');
+      if (!frame) return;
+      var slides = Array.prototype.slice.call(frame.querySelectorAll('.hero-banner-image'));
+      if (slides.length < 2) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var INTERVAL = 6000;
+      var current = 0;
+      var timer = null;
+
+      function show(index) {
+        slides.forEach(function (slide, i) {
+          slide.classList.toggle('is-active', i === index);
+        });
+        current = index;
+      }
+      function advance() { show((current + 1) % slides.length); }
+      function back() { show((current - 1 + slides.length) % slides.length); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function start() {
+        if (reduce) return;
+        stop();
+        timer = setInterval(advance, INTERVAL);
+      }
+      function restart() { stop(); start(); }
+
+      show(0);
+      start();
+
+      frame.addEventListener('click', function () { advance(); restart(); });
+      frame.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+          e.preventDefault(); advance(); restart();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault(); back(); restart();
+        }
+      });
+      frame.addEventListener('mouseenter', stop);
+      frame.addEventListener('mouseleave', start);
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) stop(); else start();
       });
     })();
   </script>
