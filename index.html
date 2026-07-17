@@ -104,8 +104,33 @@
         min-width: 0;
       }
       .hero-banner-image {
-        display: block; width: 100%; height: 100%;
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
         object-fit: cover; object-position: 56% 58%;
+        opacity: 0;
+      }
+      .hero-banner-image--a { animation: heroSlideA 18s ease-in-out infinite; }
+      .hero-banner-image--b { animation: heroSlideB 18s ease-in-out infinite; }
+      .hero-banner-image--c { animation: heroSlideC 18s ease-in-out infinite; }
+      /* 3枚を A→B→C→A とシームレスにクロスフェード（周期18秒・1枚約6秒） */
+      @keyframes heroSlideA {
+        0%, 25% { opacity: 1; }
+        33.33% { opacity: 0; }
+        91.67% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      @keyframes heroSlideB {
+        0%, 25% { opacity: 0; }
+        33.33%, 58.33% { opacity: 1; }
+        66.67%, 100% { opacity: 0; }
+      }
+      @keyframes heroSlideC {
+        0%, 58.33% { opacity: 0; }
+        66.67%, 91.67% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-banner-image--a { opacity: 1; }
       }
       .hero-banner-text {
         position: absolute; z-index: 2; top: 18px; left: 18px;
@@ -385,7 +410,7 @@
 
     <main>
       <!-- 1. ファーストビュー -->
-      <section class="hero" aria-labelledby="hero-banner-text">
+      <section class="hero">
         <div class="hero-copy">
           <span class="hero-banner-eyebrow">ご自宅で受けられる、専門スタッフによるケア</span>
         </div>
@@ -393,17 +418,28 @@
         <div class="hero-banner">
           <div class="hero-banner-frame">
             <img
-              class="hero-banner-image"
-              src="picture/LP用.JPG"
+              class="hero-banner-image hero-banner-image--a"
+              src="picture/LP用_編集版_v2.png"
               alt="施術台でコンディショニングを行う様子"
               width="1477"
               height="1108"
               fetchpriority="high"
               decoding="async"
             >
-            <div class="hero-banner-text">
-              <h1 class="hero-banner-title" id="hero-banner-text"><span class="nowrap">まだ動ける。</span><br><span class="nowrap">もっと楽しめる。</span></h1>
-            </div>
+            <img
+              class="hero-banner-image hero-banner-image--b"
+              src="picture/IMG_2960_編集版_v2.png"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            >
+            <img
+              class="hero-banner-image hero-banner-image--c"
+              src="picture/IMG_2959_編集版.png"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            >
           </div>
         </div>
 
@@ -707,7 +743,7 @@
                 <h3>無料相談・お問い合わせ</h3>
                 <p>お電話にて、お気軽にご連絡ください。</p>
                 <div class="flow-contact">
-                  <a class="flow-phone" href="tel:00000000000">000-0000-0000</a>
+                  <a class="flow-phone" href="tel:09092598502">090-9259-8502</a>
                   <span class="flow-hours">受付時間：8:00~20:00 ※対応できない場合は折り返しさせていただきます</span>
                 </div>
               </div>
