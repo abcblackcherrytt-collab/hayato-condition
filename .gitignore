@@ -4,7 +4,7 @@
 # ファーストビューで使用する写真はデプロイ対象（*.png 除外の例外）
 !picture/IMG_2960_編集版_v2.png
 !picture/IMG_2959_編集版.png
-!picture/LP用_編集版_v2.png
+!picture/LP用_編集版_v2_4x3.png
 .DS_Store
 
 # index.html で未使用の写真（デプロイ対象外）
