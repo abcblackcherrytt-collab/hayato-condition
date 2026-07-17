@@ -44,6 +44,8 @@
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
         *, *::before, *::after { transition: none !important; animation: none !important; }
+        /* ファーストビュー写真のフェード切替だけは維持（短めに） */
+        .hero-banner-image { transition: opacity .4s ease !important; }
       }
     }
 
@@ -110,6 +112,8 @@
         object-fit: cover; object-position: center;
         opacity: 0;
         transition: opacity .8s ease;
+        transform: translateZ(0);
+        will-change: opacity;
       }
       .hero-banner-image.is-active { opacity: 1; }
       .hero-banner-text {
@@ -935,10 +939,12 @@
       var timer = null;
 
       function show(index) {
-        slides.forEach(function (slide, i) {
-          slide.classList.toggle('is-active', i === index);
+        requestAnimationFrame(function () {
+          slides.forEach(function (slide, i) {
+            slide.classList.toggle('is-active', i === index);
+          });
+          current = index;
         });
-        current = index;
       }
       function advance() { show((current + 1) % slides.length); }
       function back() { show((current - 1 + slides.length) % slides.length); }
