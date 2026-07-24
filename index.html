@@ -229,8 +229,28 @@
 
       /* === Pricing === */
       .pricing-grid { @apply grid gap-5 items-stretch; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .price-card { @apply flex flex-col p-7 border border-line bg-white shadow-soft; }
+      .price-card { @apply flex flex-col p-7 border border-line bg-white shadow-soft transition; }
+      .price-card:hover { @apply -translate-y-[4px] shadow-card; }
       .price-card.featured { @apply border-mint-300 shadow-card; background: linear-gradient(180deg, #f5fbf7 0%, #ffffff 60%); }
+      .price-card.featured:hover { @apply -translate-y-[5px] shadow-lift; border-mint-400; }
+      .price-card--trial {
+        @apply border-mint-300 shadow-card;
+        background: linear-gradient(135deg, #d4e9e3 0%, #ffffff 55%);
+        position: relative;
+      }
+      .price-card--trial:hover {
+        @apply -translate-y-[5px] shadow-lift;
+        border-color: #6cc298;
+      }
+      .price-card--corporate {
+        @apply border-[#c9d4b8] shadow-card;
+        background: linear-gradient(135deg, #f0f4e8 0%, #ffffff 55%);
+        position: relative;
+      }
+      .price-card--corporate:hover {
+        @apply -translate-y-[5px] shadow-lift;
+        border-color: #a8b89a;
+      }
       .plan-name { @apply mb-[14px] text-primary-ink text-xl font-semibold leading-snug; }
       .price { @apply flex flex-wrap items-baseline gap-1.5 mb-5 text-primary-ink font-semibold; }
       .price strong { @apply text-[34px] font-semibold leading-none; }
@@ -439,9 +459,6 @@
             <a class="button" href="#flow">まずは無料相談する</a>
             <a class="button button-secondary" href="#value">サービス内容を見る</a>
           </div>
-          <div class="hero-media">
-            <img class="hero-photo" src="picture/料金表.JPG" alt="訪問コンディショニングサービスの料金表">
-          </div>
         </div>
       </section>
 
@@ -646,7 +663,7 @@
           </div>
 
           <div class="pricing-grid">
-            <article class="price-card">
+            <article class="price-card price-card--trial">
               <h3 class="plan-name">初回コンディションチェック</h3>
               <div class="price"><strong>¥5,500</strong><span>/ 60〜70分・1回のみ</span></div>
               <ul class="plan-list">
