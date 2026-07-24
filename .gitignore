@@ -9,3 +9,6 @@
 
 # index.html で未使用の写真（デプロイ対象外）
 picture/IMG_*.JPG
+
+.agents
+FIRST_VIEW_REVISION_PLAN.md
