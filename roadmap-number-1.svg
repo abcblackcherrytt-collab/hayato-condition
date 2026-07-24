@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="100"
+  height="100"
+  viewBox="0 0 100 100"
+  fill="none"
+  role="img"
+  aria-labelledby="title"
+>
+  <title id="title">システムUIフォントの数字1</title>
+
+  <!--
+    Glyph source: macOS system UI font (.SF NS)
+    Variation settings: weight 600, optical size 17, width 100
+  -->
+  <path
+    d="M504.0006 0V1186.0035H486.6674L128.0002 933.336V1178.3326L504.6673 1443H765.329V0Z"
+    transform="translate(24 92) scale(0.058212 -0.058212)"
+    fill="#123D2A"
+  />
+</svg>
